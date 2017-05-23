@@ -10,7 +10,6 @@ Universal storage provides you an interface for storing files according to your 
 1. [Maven project](maven-project)
 2. [Test API](#test-api)
 3. [Settings](#settings)
-  3.1. [Installation](#installation)
 4. [How to use](#how-to-use)
 
 # Maven project
@@ -49,23 +48,39 @@ If you want to test the API, follow these steps:
 2. The root and tmp keys are the main data to be filled, create two folders representing each one root and tmp.
 3. Save the file settings.json
 
-**Java example:**
-
-1. Passing the settings programmatically
-```java
-    try {
-          UniversalStorage us = UniversalStorage.Impl.
-              getInstance(new UniversalSettings(new File("/home/test/resources/settings.json")));
-          us.storeFile(new File("/home/test/resources/settings.json"), "myfolder/innerfolder");
-          us.storeFile(new File("/home/test/resources/settings.json"));
-          us.storeFile(new File("/home/test/resources/settings.json").getAbsolutePath(), "myfolder/innerfolder");
-          us.storeFile(new File("/home/test/resources/settings.json").getAbsolutePath());
-    } catch (UniversalStorageException e) {
-        fail(e.getMessage());
-    }
-```
-
 The root folder is the storage where the files will be stored.
 The tmp folder is where temporary files will be stored.
   
 # How to use
+**Exemples for Storing files:**
+
+1. Passing the settings programmatically
+```java
+try {
+      UniversalStorage us = UniversalStorage.Impl.
+          getInstance(new UniversalSettings(new File("/home/test/resources/settings.json")));
+      us.storeFile(new File("/home/test/resources/settings.json"), "myfolder/innerfolder");
+      us.storeFile(new File("/home/test/resources/settings.json"));
+      us.storeFile(new File("/home/test/resources/settings.json").getAbsolutePath(), "myfolder/innerfolder");
+      us.storeFile(new File("/home/test/resources/settings.json").getAbsolutePath());
+} catch (UniversalStorageException e) {
+    fail(e.getMessage());
+}
+```
+2. The settings could be passed through either jvm parameter or environment variable.
+3. If your want to pass the settings.json path through jvm parameter, in your java command add the following parameter:
+`-Duniversal.storage.settings=/home/test/resources/settings.json`
+4. If your want to pass the settings.json path through environment variable, add the following variable:
+`universal_storage_settings=/home/test/resources/settings.json`
+
+```java
+try {
+      UniversalStorage us = UniversalStorage.Impl.getInstance();
+      us.storeFile(new File("/home/test/resources/settings.json"), "myfolder/innerfolder");
+      us.storeFile(new File("/home/test/resources/settings.json"));
+      us.storeFile(new File("/home/test/resources/settings.json").getAbsolutePath(), "myfolder/innerfolder");
+      us.storeFile(new File("/home/test/resources/settings.json").getAbsolutePath());
+} catch (UniversalStorageException e) {
+    fail(e.getMessage());
+}
+```
