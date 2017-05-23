@@ -1,5 +1,0 @@
-{
-	"provider": "file.system",
-	"root": "src/test/resources/storage",
-	"tmp": "src/test/resources/tmp"
-}

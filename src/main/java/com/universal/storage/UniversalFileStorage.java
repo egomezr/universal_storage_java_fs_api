@@ -228,6 +228,12 @@ public class UniversalFileStorage extends UniversalStorage {
             return null;
         }
 
+        File dir = new File(this.settings.getRoot());
+        File [] files = dir.listFiles();
+        for (File f : files) {
+            System.out.println("############# " + f.getName());
+        }
+
         File file = new File(this.settings.getRoot() + path);
 
         if (!file.exists()) {

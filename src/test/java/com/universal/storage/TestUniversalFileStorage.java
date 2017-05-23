@@ -65,7 +65,7 @@ public class TestUniversalFileStorage extends TestCase {
         try {
             us = UniversalStorage.Impl.
                 getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
-            File file = us.retrieveFile("myfolder/innerfolder/target.txt");
+            us.retrieveFile("myfolder/innerfolder/target.txt");
         } catch (UniversalStorageException e) {
             fail(e.getMessage());
         }
