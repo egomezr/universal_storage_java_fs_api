@@ -39,13 +39,22 @@ public class TestUniversalFileStorage extends TestCase {
      */
     public void testStoreFileAsFileSystemProvider() {
         try {
+            File newFile = new File(System.getProperty("user.home"), "target.txt");
+            if (!newFile.exists()) {
+                try {
+                    newFile.createNewFile();
+                } catch (Exception e) {
+                    fail(e.getMessage());
+                }
+            }
+
             UniversalStorage us = UniversalStorage.Impl.
                 getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
 
-            us.storeFile(new File("src/test/resources/settings.json"), "myfolder/innerfolder");
-            us.storeFile(new File("src/test/resources/settings.json"));
-            us.storeFile("src/test/resources/settings.json", "myfolder/innerfolder");
-            us.storeFile("src/test/resources/settings.json");
+            us.storeFile(new File(System.getProperty("user.home"), "target.txt"), "myfolder/innerfolder");
+            us.storeFile(new File(System.getProperty("user.home"), "target.txt"));
+            us.storeFile(System.getProperty("user.home") + "/target.txt", "myfolder/innerfolder");
+            us.storeFile(System.getProperty("user.home") + "/target.txt");
         } catch (UniversalStorageException e) {
             fail(e.getMessage());
         }
@@ -56,21 +65,21 @@ public class TestUniversalFileStorage extends TestCase {
         try {
             us = UniversalStorage.Impl.
                 getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
-            File file = us.retrieveFile("myfolder/innerfolder/settings.json");
+            File file = us.retrieveFile("myfolder/innerfolder/target.txt");
         } catch (UniversalStorageException e) {
             fail(e.getMessage());
         }
 
         try {
-            File file = us.retrieveFile("myfolder/innerfolder/settings.jsontxt");
+            us.retrieveFile("myfolder/innerfolder/settings.jsontxt");
             fail("This method should throw an error.");
         } catch (UniversalStorageException ignore) {
             
         }
 
         try {
-            FileUtils.copyInputStreamToFile(us.retrieveFileAsStream("myfolder/innerfolder/settings.json"), 
-                new File(FileUtil.completeFileSeparator(System.getProperty("user.dir")) + "settings.json"));
+            FileUtils.copyInputStreamToFile(us.retrieveFileAsStream("myfolder/innerfolder/target.txt"), 
+                new File(FileUtil.completeFileSeparator(System.getProperty("user.home")) + "target.txt"));
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -83,8 +92,8 @@ public class TestUniversalFileStorage extends TestCase {
         try {
             UniversalStorage us = UniversalStorage.Impl.
                 getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
-            us.removeFile("settings.json");
-            us.removeFile("myfolder/innerfolder/settings.json");
+            us.removeFile("target.txt");
+            us.removeFile("myfolder/innerfolder/target.txt");
         } catch (UniversalStorageException e) {
             fail(e.getMessage());
         }
