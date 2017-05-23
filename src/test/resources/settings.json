@@ -1,0 +1,5 @@
+{
+	"provider": "file.system",
+	"root": "C:/storage",
+	"tmp": "C:/tmp"
+}
