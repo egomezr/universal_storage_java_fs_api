@@ -47,12 +47,21 @@ If you want to test the API, follow these steps:
 ```
 2. The root and tmp keys are the main data to be filled, create two folders representing each one root and tmp.
 3. Save the file settings.json
+4. Add the maven dependency in your pom.xml file.
+
+```xml
+<dependency>
+   <groupId>org.dynamicloud.api</groupId>
+   <artifactId>universalstorage.filesystem</artifactId>
+   <version>1.0.0</version>
+</dependency>
+```
 
 The root folder is the storage where the files will be stored.
 The tmp folder is where temporary files will be stored.
   
 # How to use
-**Exemples for Storing files:**
+**Examples for Storing files:**
 
 1. Passing the settings programmatically
 ```java
