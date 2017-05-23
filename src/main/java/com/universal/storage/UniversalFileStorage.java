@@ -270,7 +270,7 @@ System.out.println("################# " + new File(this.settings.getRoot() + pat
      */
     public void clean() throws UniversalIOException  {
         try {
-            FileUtils.cleanDirectory(new File(this.settings.getTmp()));
+           // FileUtils.cleanDirectory(new File(this.settings.getTmp()));
         } catch (Exception e) {
             throw new UniversalIOException(e.getMessage());
         }
