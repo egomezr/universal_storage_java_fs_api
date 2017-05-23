@@ -79,6 +79,11 @@ public class UniversalFileStorage extends UniversalStorage {
 
         try {
             FileUtils.copyFileToDirectory(file, new File(this.settings.getRoot() + (path == null ? "" : path)));
+            File dir = new File(this.settings.getRoot());
+        File [] files = dir.listFiles();
+        for (File f : files) {
+            System.out.println("############# " + f.getName());
+        }
         } catch(Exception e) {
             throw new UniversalIOException(e.getMessage());
         }
@@ -226,12 +231,6 @@ public class UniversalFileStorage extends UniversalStorage {
 
         if ("".equals(path.trim())) {
             return null;
-        }
-
-        File dir = new File(this.settings.getRoot());
-        File [] files = dir.listFiles();
-        for (File f : files) {
-            System.out.println("############# " + f.getName());
         }
 
         File file = new File(this.settings.getRoot() + path);
