@@ -68,10 +68,10 @@ try {
 }
 ```
 2. The settings could be passed through either jvm parameter or environment variable.
-3. If your want to pass the settings.json path through jvm parameter, in your java command add the following parameter:
-`-Duniversal.storage.settings=/home/test/resources/settings.json`
+3. If you want to pass the settings.json path through jvm parameter, in your java command add the following parameter:
+     `-Duniversal.storage.settings=/home/test/resources/settings.json`
 4. If your want to pass the settings.json path through environment variable, add the following variable:
-`universal_storage_settings=/home/test/resources/settings.json`
+     `universal_storage_settings=/home/test/resources/settings.json`
 
 ```java
 try {
