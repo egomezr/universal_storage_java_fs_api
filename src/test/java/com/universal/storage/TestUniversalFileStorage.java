@@ -35,6 +35,15 @@ import com.universal.storage.settings.UniversalSettings;
  */
 public class TestUniversalFileStorage extends TestCase {
     private static UniversalStorage us = null;
+    protected void setUp() {
+        try {
+            us = UniversalStorage.Impl.
+                getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
     private void setUpTest(String fileName, String folderName) {
         try {
             File newFile = new File(System.getProperty("user.home"), fileName);
@@ -45,9 +54,6 @@ public class TestUniversalFileStorage extends TestCase {
                     fail(e.getMessage());
                 }
             }
-
-            us = UniversalStorage.Impl.
-                getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
 
             us.storeFile(new File(System.getProperty("user.home"), fileName), folderName);
             us.storeFile(new File(System.getProperty("user.home"), fileName));
