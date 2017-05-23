@@ -34,10 +34,8 @@ import com.universal.storage.settings.UniversalSettings;
  * This implementation will manage file using a setting to store files like so.
  */
 public class TestUniversalFileStorage extends TestCase {
-    /**
-     * This test will execute the store file process using a FILE_SYSTEM provider.
-     */
-    public void testStoreFileAsFileSystemProvider() {
+    private static UniversalStorage us = null;
+    protected void setUp() {
         try {
             File newFile = new File(System.getProperty("user.home"), "target.txt");
             if (!newFile.exists()) {
@@ -48,23 +46,24 @@ public class TestUniversalFileStorage extends TestCase {
                 }
             }
 
-            UniversalStorage us = UniversalStorage.Impl.
+            us = UniversalStorage.Impl.
                 getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
 
             us.storeFile(new File(System.getProperty("user.home"), "target.txt"), "myfolder/innerfolder");
             us.storeFile(new File(System.getProperty("user.home"), "target.txt"));
             us.storeFile(System.getProperty("user.home") + "/target.txt", "myfolder/innerfolder");
             us.storeFile(System.getProperty("user.home") + "/target.txt");
-        } catch (UniversalStorageException e) {
+        } catch (Exception e) {
             fail(e.getMessage());
         }
     }
 
+    protected void tearDown() {
+
+    }
+
     public void testRetrieveFileAsFileSystemProvider() {
-        UniversalStorage us = null;
         try {
-            us = UniversalStorage.Impl.
-                getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
             us.retrieveFile("myfolder/innerfolder/target.txt");
         } catch (UniversalStorageException e) {
             fail(e.getMessage());
@@ -90,8 +89,6 @@ public class TestUniversalFileStorage extends TestCase {
      */
     public void testRemoveFileAsFileSystemProvider() {
         try {
-            UniversalStorage us = UniversalStorage.Impl.
-                getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
             us.removeFile("target.txt");
             us.removeFile("myfolder/innerfolder/target.txt");
         } catch (UniversalStorageException e) {
@@ -104,8 +101,6 @@ public class TestUniversalFileStorage extends TestCase {
      */
     public void testCreateFolderAsFileSystemProvider() {
         try {
-            UniversalStorage us = UniversalStorage.Impl.
-                getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
             us.createFolder("myNewFolder");
         } catch (UniversalStorageException e) {
             fail(e.getMessage());
@@ -117,8 +112,6 @@ public class TestUniversalFileStorage extends TestCase {
      */
     public void testRemoveFolderAsFileSystemProvider() {
         try {
-            UniversalStorage us = UniversalStorage.Impl.
-                getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
             us.removeFolder("myNewFolder");
         } catch (UniversalStorageException e) {
             fail(e.getMessage());
@@ -130,8 +123,6 @@ public class TestUniversalFileStorage extends TestCase {
      */
     public void testCleanStorageAsFileSystemProvider() {
         try {
-            UniversalStorage us = UniversalStorage.Impl.
-                getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
             us.clean();
         } catch (UniversalStorageException e) {
             fail(e.getMessage());

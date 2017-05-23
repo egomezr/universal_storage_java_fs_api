@@ -205,7 +205,7 @@ public class UniversalFileStorage extends UniversalStorage {
         }
 
         try {
-            FileUtils.forceDelete(file);
+            FileUtils.deleteDirectory(file);
         } catch(Exception e) {
             throw new UniversalIOException(e.getMessage());
         }
@@ -270,7 +270,7 @@ public class UniversalFileStorage extends UniversalStorage {
      */
     public void clean() throws UniversalIOException  {
         try {
-           // FileUtils.cleanDirectory(new File(this.settings.getTmp()));
+           FileUtils.cleanDirectory(new File(this.settings.getTmp()));
         } catch (Exception e) {
             throw new UniversalIOException(e.getMessage());
         }
