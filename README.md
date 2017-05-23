@@ -47,8 +47,10 @@ If you want to test the API, follow these steps:
 }
 ```
 2. The root and tmp keys are the main data to be filled, create two folders representing each one root and tmp.
+
 The root folder is the storage where the files will be stored.
 The tmp folder is where temporary files will be stored.
+
 3. Save the file settings.json
 
 # How to use
