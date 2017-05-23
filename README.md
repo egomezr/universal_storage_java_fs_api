@@ -33,7 +33,7 @@ If you want to test the API, follow these steps:
 
 **Now execute the following command:**
 
-`mvn clean test`
+`mvn clean test` 
 
 # Settings
 **These are the steps for setting up Universal Storage in your project:**
