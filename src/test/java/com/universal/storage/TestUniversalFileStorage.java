@@ -35,9 +35,9 @@ import com.universal.storage.settings.UniversalSettings;
  */
 public class TestUniversalFileStorage extends TestCase {
     private static UniversalStorage us = null;
-    protected void setUp() {
+    private void setUpTest(String fileName, String folderName) {
         try {
-            File newFile = new File(System.getProperty("user.home"), "target.txt");
+            File newFile = new File(System.getProperty("user.home"), fileName);
             if (!newFile.exists()) {
                 try {
                     newFile.createNewFile();
@@ -49,36 +49,34 @@ public class TestUniversalFileStorage extends TestCase {
             us = UniversalStorage.Impl.
                 getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
 
-            us.storeFile(new File(System.getProperty("user.home"), "target.txt"), "myfolder/innerfolder");
-            us.storeFile(new File(System.getProperty("user.home"), "target.txt"));
-            us.storeFile(System.getProperty("user.home") + "/target.txt", "myfolder/innerfolder");
-            us.storeFile(System.getProperty("user.home") + "/target.txt");
+            us.storeFile(new File(System.getProperty("user.home"), fileName), folderName);
+            us.storeFile(new File(System.getProperty("user.home"), fileName));
+            us.storeFile(System.getProperty("user.home") + "/" + fileName, folderName);
+            us.storeFile(System.getProperty("user.home") + "/" + fileName);
         } catch (Exception e) {
             fail(e.getMessage());
         }
     }
 
-    protected void tearDown() {
-
-    }
-
     public void testRetrieveFileAsFileSystemProvider() {
+        String fileName = System.nanoTime() + ".txt";
         try {
-            us.retrieveFile("myfolder/innerfolder/target.txt");
+            setUpTest(fileName, "retrieve/innerfolder");
+            us.retrieveFile("retrieve/innerfolder/" + fileName);
         } catch (UniversalStorageException e) {
             fail(e.getMessage());
         }
 
         try {
-            us.retrieveFile("myfolder/innerfolder/settings.jsontxt");
+            us.retrieveFile("retrieve/innerfolder/settings.jsontxt");
             fail("This method should throw an error.");
         } catch (UniversalStorageException ignore) {
             
         }
 
         try {
-            FileUtils.copyInputStreamToFile(us.retrieveFileAsStream("myfolder/innerfolder/target.txt"), 
-                new File(FileUtil.completeFileSeparator(System.getProperty("user.home")) + "target.txt"));
+            FileUtils.copyInputStreamToFile(us.retrieveFileAsStream("retrieve/innerfolder/" + fileName), 
+                new File(FileUtil.completeFileSeparator(System.getProperty("user.home")) + fileName));
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -89,8 +87,11 @@ public class TestUniversalFileStorage extends TestCase {
      */
     public void testRemoveFileAsFileSystemProvider() {
         try {
-            us.removeFile("target.txt");
-            us.removeFile("myfolder/innerfolder/target.txt");
+            String fileName = System.nanoTime() + ".txt";
+            setUpTest(fileName, "remove/innerfolder");
+
+            us.removeFile(fileName);
+            us.removeFile("remove/innerfolder/" + fileName);
         } catch (UniversalStorageException e) {
             fail(e.getMessage());
         }
@@ -99,19 +100,9 @@ public class TestUniversalFileStorage extends TestCase {
     /**
      * This test will execute the create folder process using a FILE_SYSTEM provider.
      */
-    public void testCreateFolderAsFileSystemProvider() {
+    public void testCreateFolderRemoveAsFileSystemProvider() {
         try {
             us.createFolder("myNewFolder");
-        } catch (UniversalStorageException e) {
-            fail(e.getMessage());
-        }
-    }
-
-    /**
-     * This test will execute the remove folder process using a FILE_SYSTEM provider.
-     */
-    public void testRemoveFolderAsFileSystemProvider() {
-        try {
             us.removeFolder("myNewFolder");
         } catch (UniversalStorageException e) {
             fail(e.getMessage());

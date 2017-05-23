@@ -21,6 +21,7 @@
 *.vscode
 *.classpath
 *.project
+*.txt
 *target/
 pom-deploy.xml
 
