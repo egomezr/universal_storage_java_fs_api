@@ -25,17 +25,30 @@ If you want to test the API, follow these steps:
 ```json
 {
    "provider": "file.system",
-   "root": "C:/storage",
-   "tmp": "C:/tmp"
+   "root": "/home/user/storage",
+   "tmp": "/home/user/tmp"
 }
 ```
 4. Paste the absolute paths, the root's path and the tmp's path.
 5. Save the settings.json file.
 
-** Now execute the following command: **
+**Now execute the following command:**
 
 `mvn clean test`
 
 # Settings
+**These are the steps for setting up Universal Storage in your project:**
+1. You must create a file called settings.json (can be any name) and paste the following. 
+```json
+{
+   "provider": "file.system",
+   "root": "/home/user/storage",
+   "tmp": "/home/user/tmp"
+}
+```
+2. The root and tmp keys are the main data to be filled, create two folders representing each one root and tmp.
+The root folder is the storage where the files will be stored.
+The tmp folder is where temporary files will be stored.
+3. Save the file settings.json
 
 # How to use
