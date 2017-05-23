@@ -47,10 +47,25 @@ If you want to test the API, follow these steps:
 }
 ```
 2. The root and tmp keys are the main data to be filled, create two folders representing each one root and tmp.
+3. Save the file settings.json
+
+**Java example:**
+
+1. Passing the settings programmatically
+```java
+    try {
+          UniversalStorage us = UniversalStorage.Impl.
+              getInstance(new UniversalSettings(new File("/home/test/resources/settings.json")));
+          us.storeFile(new File("/home/test/resources/settings.json"), "myfolder/innerfolder");
+          us.storeFile(new File("/home/test/resources/settings.json"));
+          us.storeFile(new File("/home/test/resources/settings.json").getAbsolutePath(), "myfolder/innerfolder");
+          us.storeFile(new File("/home/test/resources/settings.json").getAbsolutePath());
+    } catch (UniversalStorageException e) {
+        fail(e.getMessage());
+    }
+```
 
 The root folder is the storage where the files will be stored.
 The tmp folder is where temporary files will be stored.
-
-3. Save the file settings.json
-
+  
 # How to use
