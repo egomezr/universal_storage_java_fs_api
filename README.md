@@ -18,13 +18,13 @@ If you want to test the API, follow these steps:
 1. Create a folder and copy its the absolute path.  This folder will be your storage root target.
 2. Create a folder and copy its the absolute path.  This folder will be your tmp folder.
 2. Open the settings.json on test/resources/settings
-`json
+```json
 {
 	"provider": "file.system",
 	"root": "C:/storage",
 	"tmp": "C:/tmp"
 }
-`
+```
 
 # Settings
 
