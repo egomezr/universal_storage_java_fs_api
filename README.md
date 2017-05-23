@@ -12,8 +12,8 @@ Universal storage provides you an interface for storing files according to your 
   1. [Installation](#installation)
 3. [How to use](#how-to-use)
 
-#Test API
+# Test API
 
-#Settings
+# Settings
 
-#How to use
+# How to use
