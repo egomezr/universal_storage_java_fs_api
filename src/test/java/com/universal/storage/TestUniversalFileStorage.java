@@ -44,8 +44,8 @@ public class TestUniversalFileStorage extends TestCase {
 
             us.storeFile(new File("src/test/resources/settings.json"), "myfolder/innerfolder");
             us.storeFile(new File("src/test/resources/settings.json"));
-            us.storeFile(new File("src/test/resources/settings.json").getAbsolutePath(), "myfolder/innerfolder");
-            us.storeFile(new File("src/test/resources/settings.json").getAbsolutePath());
+            us.storeFile("src/test/resources/settings.json", "myfolder/innerfolder");
+            us.storeFile("src/test/resources/settings.json");
         } catch (UniversalStorageException e) {
             fail(e.getMessage());
         }
@@ -79,5 +79,53 @@ public class TestUniversalFileStorage extends TestCase {
     /**
      * This test will execute the remove file process using a FILE_SYSTEM provider.
      */
-    
+    public void testRemoveFileAsFileSystemProvider() {
+        try {
+            UniversalStorage us = UniversalStorage.Impl.
+                getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
+            us.removeFile("settings.json");
+            us.removeFile("myfolder/innerfolder/settings.json");
+        } catch (UniversalStorageException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * This test will execute the create folder process using a FILE_SYSTEM provider.
+     */
+    public void testCreateFolderAsFileSystemProvider() {
+        try {
+            UniversalStorage us = UniversalStorage.Impl.
+                getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
+            us.createFolder("myNewFolder");
+        } catch (UniversalStorageException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * This test will execute the remove folder process using a FILE_SYSTEM provider.
+     */
+    public void testRemoveFolderAsFileSystemProvider() {
+        try {
+            UniversalStorage us = UniversalStorage.Impl.
+                getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
+            us.removeFolder("myNewFolder");
+        } catch (UniversalStorageException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * This test will clean the storage's context.
+     */
+    public void testCleanStorageAsFileSystemProvider() {
+        try {
+            UniversalStorage us = UniversalStorage.Impl.
+                getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
+            us.clean();
+        } catch (UniversalStorageException e) {
+            fail(e.getMessage());
+        }
+    }
 }

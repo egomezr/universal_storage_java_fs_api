@@ -229,7 +229,7 @@ public class UniversalFileStorage extends UniversalStorage {
         }
 
         File file = new File(this.settings.getRoot() + path);
-System.out.println("################# " + new File(this.settings.getRoot() + path).getAbsolutePath());
+
         if (!file.exists()) {
             throw new UniversalIOException(file.getName() + " doesn't exist.");
         }
