@@ -13,6 +13,18 @@ Universal storage provides you an interface for storing files according to your 
 3. [How to use](#how-to-use)
 
 # Test API
+If you want to test the API, follow these steps:
+
+1. Create a folder and copy its the absolute path.  This folder will be your storage root target.
+2. Create a folder and copy its the absolute path.  This folder will be your tmp folder.
+2. Open the settings.json on test/resources/settings
+`json
+{
+	"provider": "file.system",
+	"root": "C:/storage",
+	"tmp": "C:/tmp"
+}
+`
 
 # Settings
 
