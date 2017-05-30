@@ -198,3 +198,78 @@ us.registerListener(new UniversalStorageListenerAdapter() {
      }
  });
 ```
+
+**Listener adapter**
+
+This adapter is useful for situation where you're needing only one, or two implementation of **UniversalStorageListener** class.
+
+```java
+public class UniversalStorageListenerAdapter implements UniversalStorageListener {
+    /**
+     * This method will be called just before storing process.
+     */
+    public void onStoreFile() {
+
+    }
+
+    /**
+     * This method will be called just before creation process.
+     */
+    public void onCreateFolder() {
+        
+    }
+
+    /**
+     * This method will be called just before file removing process.
+     */
+    public void onRemoveFile() {
+        
+    }
+
+    /**
+     * This method will be called just before folder removing process.
+     */
+    public void onRemoveFolder() {
+        
+    }
+
+    /**
+     * This method will be called when an error occurs.
+     */
+    public void onError(UniversalIOException error) {
+        
+    }
+
+    /**
+     * This method will be called just after storing process.
+     * 
+     * @param data contains data about the new file.
+     */
+    public void onFileStored(UniversalStorageData data) {
+        
+    }
+
+    /**
+     * This method will be called just after creation process.
+     * 
+     * @param data contains data about the new folder.
+     */
+    public void onFolderCreated(UniversalStorageData data) {
+        
+    }
+
+    /**
+     * This method will be called just after file removing process.
+     */
+    public void onFileRemoved() {
+        
+    }
+
+    /**
+     * This method will be called just after folder removing process.
+     */
+    public void onFolderRemoved() {
+        
+    }
+}
+```
