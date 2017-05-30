@@ -64,7 +64,7 @@ The root folder is the storage where the files will be stored.
 The tmp folder is where temporary files will be stored.
   
 # How to use
-**Examples for Storing files:**
+**Examples for managing files and folder:**
 
 1. Passing the settings programmatically
 ```java
@@ -94,5 +94,68 @@ try {
       us.storeFile(new File("/home/test/resources/settings.json").getAbsolutePath());
 } catch (UniversalStorageException e) {
     fail(e.getMessage());
+}
+```
+
+**Remove file:**
+
+```java
+try {
+      UniversalStorage us = UniversalStorage.Impl.getInstance();
+      us.removeFile("/home/test/resources/settings.json");
+} catch (UniversalStorageException e) {
+    e.printStackTrace();
+}
+```
+
+**Create folder:**
+```java
+try {
+      UniversalStorage us = UniversalStorage.Impl.getInstance();
+      us.createFolder("/myNewFolder");
+} catch (UniversalStorageException e) {
+    e.printStackTrace();
+}
+```
+
+**Remove folder:**
+```java
+try {
+      UniversalStorage us = UniversalStorage.Impl.getInstance();
+      us.removeFolder("/myNewFolder");
+} catch (UniversalStorageException e) {
+    e.printStackTrace();
+}
+```
+
+**Retrieve file:**
+```java
+try {
+      UniversalStorage us = UniversalStorage.Impl.getInstance();
+      us.retrieveFile("myFolder/file.txt");
+} catch (UniversalStorageException e) {
+    e.printStackTrace();
+}
+```
+
+**Retrieve file as InputStream:**
+
+This inputstream will use a file that was stored into the tmp folder.
+```java
+try {
+      UniversalStorage us = UniversalStorage.Impl.getInstance();
+      InputSstream stream = us.retrieveFileAsStream("myFolder/file.txt");
+} catch (UniversalStorageException e) {
+    e.printStackTrace();
+}
+```
+
+**Clean up tmp folder:**
+```java
+try {
+      UniversalStorage us = UniversalStorage.Impl.getInstance();
+      us.clean();
+} catch (UniversalStorageException e) {
+    e.printStackTrace();
 }
 ```
