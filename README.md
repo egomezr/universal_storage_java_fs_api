@@ -171,9 +171,10 @@ try {
 ```
 
 **Register listeners**
+
 This API provides useful listeners for asynchronous situations.
 
-Your custom listener must implement this interface.  This interface provides a series of methods for every situation, for example. a listener when the storeFile is either starting or ending, Etc.
+Your custom listener must implement this interface.  This interface provides a series of methods for every situation, for example, a listener when the method "storeFile" is either starting or ending, when error occurs during any kind of process, Etc.
 
 ```java
 public interface UniversalStorageListener {}
