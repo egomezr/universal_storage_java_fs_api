@@ -201,7 +201,7 @@ us.registerListener(new UniversalStorageListenerAdapter() {
 
 **Listener adapter**
 
-This adapter is useful for situation where you're needing only one, or two implementation of **UniversalStorageListener** class.
+This adapter is useful for situation where you're needing only one or two implementation of **UniversalStorageListener** class.
 
 ```java
 public class UniversalStorageListenerAdapter implements UniversalStorageListener {
