@@ -2,6 +2,8 @@ package com.universal.storage;
 
 import junit.framework.TestCase;
 import java.io.File;
+
+import com.universal.error.UniversalIOException;
 import com.universal.error.UniversalStorageException;
 import org.apache.commons.io.FileUtils;
 import com.universal.util.FileUtil;
@@ -38,7 +40,21 @@ public class TestUniversalFileStorage extends TestCase {
     protected void setUp() {
         try {
             us = UniversalStorage.Impl.
-                getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
+                    getInstance(new UniversalSettings(new File("src/test/resources/settings.json")));
+
+            us.registerListener(new UniversalStorageListenerAdapter() {
+                public void onFolderCreated(UniversalStorageData data) {
+                    System.out.println(data.toString());
+                }
+
+                public void onFileStored(UniversalStorageData data) {
+                    System.out.println(data.toString());
+                }
+
+                public void onError(UniversalIOException error) {
+                    System.out.println("#### - " + error.getMessage());
+                }
+            });
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -57,8 +73,6 @@ public class TestUniversalFileStorage extends TestCase {
 
             us.storeFile(new File(System.getProperty("user.home"), fileName), folderName);
             us.storeFile(new File(System.getProperty("user.home"), fileName));
-            us.storeFile(System.getProperty("user.home") + "/" + fileName, folderName);
-            us.storeFile(System.getProperty("user.home") + "/" + fileName);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -121,6 +135,17 @@ public class TestUniversalFileStorage extends TestCase {
     public void testCleanStorageAsFileSystemProvider() {
         try {
             us.clean();
+        } catch (UniversalStorageException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * This test will wipe the storage's context.
+     */
+    public void testWipeStorageAsFileSystemProvider() {
+        try {
+            us.wipe();
         } catch (UniversalStorageException e) {
             fail(e.getMessage());
         }

@@ -36,6 +36,8 @@ import java.io.FileNotFoundException;
  * This implementation will manage file using a setting to store files like so.
  */
 public class UniversalFileStorage extends UniversalStorage {
+    private static final String FILE_URI = "file:///";
+
     /**
      * This constructor receives the settings for this new FileStorage instance.
      * 
@@ -74,13 +76,22 @@ public class UniversalFileStorage extends UniversalStorage {
         validateRoot(this.settings);
 
         if (file.isDirectory()) {
-            throw new UniversalIOException(file.getName() + " is a folder.  You should call the createFolder method.");
+            UniversalIOException error = new UniversalIOException(file.getName() + " is a folder.  You should call the createFolder method.");
+            this.triggerOnErrorListeners(error);
+            throw error;
         }
 
         try {
-            FileUtils.copyFileToDirectory(file, new File(this.settings.getRoot() + (path == null ? "" : path)));       
+            this.triggerOnStoreFileListeners();
+            File newFile = new File(this.settings.getRoot() + (path == null ? "" : path));
+            FileUtils.copyFileToDirectory(file, newFile);
+            this.triggerOnFileStoredListeners(new UniversalStorageData(newFile.getName(), 
+                            FILE_URI + newFile.getAbsolutePath(), 
+                            newFile.getName(), newFile.getAbsolutePath()));
         } catch(Exception e) {
-            throw new UniversalIOException(e.getMessage());
+            UniversalIOException error = new UniversalIOException(e.getMessage());
+            this.triggerOnErrorListeners(error);
+            throw error;
         }
     }
 
@@ -132,13 +143,19 @@ public class UniversalFileStorage extends UniversalStorage {
         File file = new File(this.settings.getRoot() + path);
 
         if (file.isDirectory()) {
-            throw new UniversalIOException(file.getName() + " is a folder.  You should call the removeFolder method.");
+            UniversalIOException error = new UniversalIOException(file.getName() + " is a folder.  You should call the removeFolder method.");
+            this.triggerOnErrorListeners(error);
+            throw error;
         }
 
         try {
+            this.triggerOnRemoveFileListeners();
             FileUtils.forceDelete(file);
+            this.triggerOnFileRemovedListeners();
         } catch(Exception e) {
-            throw new UniversalIOException(e.getMessage());
+            UniversalIOException error = new UniversalIOException(e.getMessage());
+            this.triggerOnErrorListeners(error);
+            throw error;
         }
     }
 
@@ -169,10 +186,16 @@ public class UniversalFileStorage extends UniversalStorage {
             File newFolder = new File(this.settings.getRoot() + path);
 
             if (!"".equals(path.trim()) && !newFolder.exists()) {
+                this.triggerOnCreateFolderListeners();
                 newFolder.mkdir();
+                this.triggerOnFolderCreatedListeners(new UniversalStorageData(newFolder.getName(), 
+                                FILE_URI + newFolder.getAbsolutePath(), 
+                                newFolder.getName(), this.settings.getRoot() + path));
             }
         } catch(Exception e) {
-            throw new UniversalIOException(e.getMessage());
+            UniversalIOException error = new UniversalIOException(e.getMessage());
+            this.triggerOnErrorListeners(error);
+            throw error;
         }
     }
 
@@ -201,13 +224,19 @@ public class UniversalFileStorage extends UniversalStorage {
         File file = new File(this.settings.getRoot() + path);
 
         if (!file.isDirectory()) {
-            throw new UniversalIOException(file.getName() + " is a file.  You should call the removeFile method.");
+            UniversalIOException error = new UniversalIOException(file.getName() + " is a file.  You should call the removeFile method.");
+            this.triggerOnErrorListeners(error);
+            throw error;
         }
 
         try {
+            this.triggerOnRemoveFolderListeners();
             FileUtils.deleteDirectory(file);
+            this.triggerOnFolderRemovedListeners();
         } catch(Exception e) {
-            throw new UniversalIOException(e.getMessage());
+            UniversalIOException error = new UniversalIOException(e.getMessage());
+            this.triggerOnErrorListeners(error);
+            throw error;
         }
     }
 
@@ -231,18 +260,24 @@ public class UniversalFileStorage extends UniversalStorage {
         File file = new File(this.settings.getRoot() + path);
 
         if (!file.exists()) {
-            throw new UniversalIOException(file.getName() + " doesn't exist.");
+            UniversalIOException error = new UniversalIOException(file.getName() + " doesn't exist.");
+            this.triggerOnErrorListeners(error);
+            throw error;
         }
 
         if (file.isDirectory()) {
-            throw new UniversalIOException(file.getName() + " is a folder.");
+            UniversalIOException error = new UniversalIOException(file.getName() + " is a folder.");
+            this.triggerOnErrorListeners(error);
+            throw error;
         }
 
         File tmp = new File(this.settings.getTmp());
         try {
             FileUtils.copyFileToDirectory(file, tmp);
         } catch(Exception e) {
-            throw new UniversalIOException(e.getMessage());
+            UniversalIOException error = new UniversalIOException(e.getMessage());
+            this.triggerOnErrorListeners(error);
+            throw error;
         }
 
         return new UniversalFile(this.settings.getTmp() + file.getName());
@@ -260,7 +295,9 @@ public class UniversalFileStorage extends UniversalStorage {
         try {
             return new FileInputStream(retrieveFile(path));
         } catch (FileNotFoundException e) {
-            throw new UniversalIOException(e.getMessage());
+            UniversalIOException error = new UniversalIOException(e.getMessage());
+            this.triggerOnErrorListeners(error);
+            throw error;
         }
     }
 
@@ -272,7 +309,23 @@ public class UniversalFileStorage extends UniversalStorage {
         try {
            FileUtils.cleanDirectory(new File(this.settings.getTmp()));
         } catch (Exception e) {
-            throw new UniversalIOException(e.getMessage());
+            UniversalIOException error = new UniversalIOException(e.getMessage());
+            this.triggerOnErrorListeners(error);
+            throw error;
+        }
+    }
+
+    /**
+     * This method wipes the root folder of a storage, basically, will remove all files and folder in it.  
+     * Be careful with this method because in too many cases this action won't provide a rollback action.
+     */
+    public void wipe() throws UniversalIOException {
+        try {
+           FileUtils.cleanDirectory(new File(this.settings.getRoot()));
+        } catch (Exception e) {
+            UniversalIOException error = new UniversalIOException(e.getMessage());
+            this.triggerOnErrorListeners(error);
+            throw error;
         }
     }
 }
