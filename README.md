@@ -159,3 +159,41 @@ try {
     e.printStackTrace();
 }
 ```
+
+**Wipe root folder:**
+```java
+try {
+      UniversalStorage us = UniversalStorage.Impl.getInstance();
+      us.wipe();
+} catch (UniversalStorageException e) {
+    e.printStackTrace();
+}
+```
+
+**Register listeners**
+This API provides useful listeners for asynchronous situations.
+
+Your custom listener must implement this interface.  This interface provides a series of methods for every situation, for example. a listener when the storeFile is either starting or ending, Etc.
+
+```java
+public interface UniversalStorageListener {}
+```
+
+**Register a listener**
+
+```java
+UniversalStorage us = UniversalStorage.Impl.getInstance();
+us.registerListener(new UniversalStorageListenerAdapter() {
+     public void onFolderCreated(UniversalStorageData data) {
+         System.out.println(data.toString());
+     }
+
+     public void onFileStored(UniversalStorageData data) {
+         System.out.println(data.toString());
+     }
+
+     public void onError(UniversalIOException error) {
+         System.out.println(error.getMessage());
+     }
+ });
+```
